@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 🏥 Client model
+model Client {
+  id             String       @id @default(uuid())
+  firstName      String
+  middleName     String?
+  lastName       String?
+  age            Int
+  gender         String
+  phone          String       @unique
+  email          String?      @unique
+  address        String
+  medicalHistory String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  enrollments    Enrollment[] // 🔥 Many-to-many relationship with programs
+
+  @@map("client_tbl") // 📌 Maps table to "client_tbl"
+}
+
+// program model
+model Program {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  department  String // 🔥 New field: Health department (e.g., Infectious Diseases, Maternal Health)
+  startDate   DateTime // 📅 When the program starts
+  endDate     DateTime? // 📅 Nullable for ongoing programs
+  status      String // ✅ Active, Inactive, or Completed
+  createdAt   DateTime     @default(now())
+  enrollments Enrollment[] // 🔥 Many-to-many relationship with clients
+
+  @@map("program_tbl") // 📌 Maps table to "program_tbl"
+}
+
+// 🎓 Enrollment model (Many-to-Many Relationship)
+model Enrollment {
+  id         String   @id @default(uuid())
+  clientId   String
+  programId  String
+  enrolledAt DateTime @default(now())
+
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, programId]) // 🔥 Prevent duplicate enrollments
+}
