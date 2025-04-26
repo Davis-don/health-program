@@ -1,0 +1,44 @@
+.overall-dashboard-container{
+
+}
+.top-side-nav-links-header{
+padding: 2rem;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+gap: 2rem;
+flex-wrap: wrap;
+}
+.top-side-nav-links{
+display: flex;
+flex-direction: row;
+list-style: none;
+gap: 2rem;
+flex-wrap: wrap;
+}
+.top-side-nav-links li{
+padding: 0.5rem 1rem;
+cursor: pointer;
+width: max-content;
+display: flex;
+flex-direction: row;
+align-items: center;
+font-size: 1.2rem;
+gap: 1rem;
+}
+.top-side-nav-links li:hover{
+    background-color: black;
+    color: white;
+}
+.activate-link{
+background-color:  black;
+color: white;
+
+}
+
+.body-section-cdashboard-container{
+width: 100%;
+height: 86vh;
+padding: 2rem;
+overflow: scroll;
+}

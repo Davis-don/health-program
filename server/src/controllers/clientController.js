@@ -5,9 +5,16 @@ export const createClient = async (req, res) => {
   try {
     const { firstName, middleName, lastName, age, gender, phone, email, address, medicalHistory } = req.body;
 
-    // 🔥 Ensure required fields are provided
-    if (!firstName || !age || !gender || !phone || !address) {
-      return res.status(400).json({ message: "All required fields must be provided" });
+    if (
+      !firstName.trim() ||
+      !middleName.trim() ||
+      !lastName.trim() ||
+      age === undefined || age === null || isNaN(Number(age)) || Number(age) <= 0 ||
+      !gender.trim() ||
+      !phone.trim() ||
+      !address.trim()
+    ) {
+      return res.status(400).json({ message: "All required fields must be provided and must be valid" });
     }
 
     const newClient = await prisma.client.create({
@@ -15,7 +22,7 @@ export const createClient = async (req, res) => {
         firstName,
         middleName,
         lastName,
-        age,
+        age: Number(age),
         gender,
         phone,
         email,
@@ -102,6 +109,71 @@ export const deleteClient = async (req, res) => {
     res.status(200).json({ message: "Client deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting client", error: error.message });
+  }
+};
+
+// 🔍 Get a client by name (first, middle, or last name)
+// 🔍 Get a client by name (supports one, two, or three names in the same input field)
+export const getClientByName = async (req, res) => {
+  try {
+    const { name } = req.query;  // Expecting the name as a single query parameter
+
+    if (!name || name.trim() === "") {
+      return res.status(400).json({ message: "Name query parameter is required" });
+    }
+
+    // Split the name input by spaces
+    const nameParts = name.trim().split(/\s+/);
+
+    // Dynamically build search conditions based on how many parts are provided
+    const whereConditions = [];
+
+    // First name search (always first part of the input)
+    if (nameParts[0]) {
+      whereConditions.push({
+        firstName: {
+          contains: nameParts[0],
+          mode: "insensitive", // Case-insensitive search
+        },
+      });
+    }
+
+    // Middle name search (optional, second part of the input)
+    if (nameParts[1]) {
+      whereConditions.push({
+        middleName: {
+          contains: nameParts[1],
+          mode: "insensitive",
+        },
+      });
+    }
+
+    // Last name search (optional, third part of the input)
+    if (nameParts[2]) {
+      whereConditions.push({
+        lastName: {
+          contains: nameParts[2],
+          mode: "insensitive",
+        },
+      });
+    }
+
+    // Search for clients based on the dynamically constructed conditions
+    const clients = await prisma.client.findMany({
+      where: {
+        OR: whereConditions,
+      },
+    });
+
+    // If no clients were found, return a message indicating so
+    if (clients.length === 0) {
+      return res.status(404).json({ message: "No clients found with the given name" });
+    }
+
+    // Return the found clients
+    res.status(200).json({ message: "Clients found", clients });
+  } catch (error) {
+    res.status(500).json({ message: "Error searching clients", error: error.message });
   }
 };
 

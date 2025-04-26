@@ -3,23 +3,30 @@ import prisma from "../config/dbConfig.js";
 // 📌 Create a new hospital program
 export const createProgram = async (req, res) => {
   try {
-
- 
+    // Destructure and trim fields to remove whitespace from the input
     const { name, description, department, startDate, endDate, status } = req.body;
 
-    // 🔥 Ensure required fields are provided
-    if (!name || !description || !department || !startDate || !endDate || !status) {
-      return res.status(400).json({ message: "All fields must be provided" });
+    // Trim each field to ensure no field is just whitespace
+    const trimmedName = name?.trim();
+    const trimmedDescription = description?.trim();
+    const trimmedDepartment = department?.trim();
+    const trimmedStartDate = startDate?.trim();
+    const trimmedEndDate = endDate?.trim();
+    const trimmedStatus = status?.trim();
+
+    // 🔥 Ensure required fields are provided and not empty after trimming
+    if (!trimmedName || !trimmedDescription || !trimmedDepartment || !trimmedStartDate || !trimmedEndDate || !trimmedStatus) {
+      return res.status(400).json({ message: "All fields must be provided and cannot be empty" });
     }
 
     const newProgram = await prisma.program.create({
       data: {
-        name,
-        description,
-        department, // New field: Health department (e.g., Infectious Diseases, Maternal Health)
-        startDate,
-        endDate,
-        status,
+        name: trimmedName,
+        description: trimmedDescription,
+        department: trimmedDepartment, // New field: Health department (e.g., Infectious Diseases, Maternal Health)
+        startDate: new Date(trimmedStartDate),
+        endDate: trimmedEndDate ? new Date(trimmedEndDate) : null, // handle optional endDate
+        status: trimmedStatus,
       },
     });
 
@@ -28,6 +35,7 @@ export const createProgram = async (req, res) => {
     res.status(500).json({ message: "Error creating hospital program", error: error.message });
   }
 };
+
 
 // 📋 Get all hospital programs
 export const getAllPrograms = async (_req, res) => {

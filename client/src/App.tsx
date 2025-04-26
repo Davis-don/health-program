@@ -1,11 +1,16 @@
 import './App.css'
+import Dashboard from './pages/Dashboard'
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
-  
 
+  const queryClient = new QueryClient();
   return (
 <div className="app">
-<h1>Heloo</h1>
+<QueryClientProvider client={queryClient}>
+<Dashboard/>
+</QueryClientProvider>
+
 </div>
   )
 }

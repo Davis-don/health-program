@@ -1,0 +1,7 @@
+.register-program-container{
+    padding: 20px;
+    background-color: white;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), 
+                -5px -5px 15px rgba(255, 255, 255, 0.6);
+    border-radius: 8px; /* Slightly smoother corners */
+}
