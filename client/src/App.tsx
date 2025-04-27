@@ -1,6 +1,7 @@
 import './App.css'
 import Dashboard from './pages/Dashboard'
 import { QueryClient, QueryClientProvider } from "react-query";
+import Homepage from './pages/Homepage';
 
 function App() {
 
@@ -8,7 +9,8 @@ function App() {
   return (
 <div className="app">
 <QueryClientProvider client={queryClient}>
-<Dashboard/>
+  <Homepage/>
+{/* <Dashboard/> */}
 </QueryClientProvider>
 
 </div>
