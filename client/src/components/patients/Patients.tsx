@@ -17,7 +17,7 @@ interface ClientFormData {
 }
 
 function Patients() {
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;  // Dynamically load the API URL from the environment
 
   const [formData, setFormData] = useState<ClientFormData>({
     firstName: '',
@@ -40,7 +40,7 @@ function Patients() {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`${apiUrl}/clients/new-client`, {
+      const response = await fetch(`${apiUrl}/clients/new-client`, {  // Use dynamic API URL here
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

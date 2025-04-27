@@ -35,7 +35,8 @@ interface UserData {
 }
 
 const fetchUser = async (id: string): Promise<UserData> => {
-  const response = await fetch(`http://localhost:4000/clients/get/${id}`);
+  const apiUrl = import.meta.env.VITE_API_URL; // Fetch API URL from environment variable
+  const response = await fetch(`${apiUrl}/clients/get/${id}`);
   if (!response.ok) {
     throw new Error('Failed to fetch user data');
   }
@@ -61,7 +62,8 @@ function Profile() {
 
   const deleteEnrollmentMutation = useMutation({
     mutationFn: async (enrollmentId: string) => {
-      const response = await fetch(`http://localhost:4000/enrollments/remove/${enrollmentId}`, {
+      const apiUrl = import.meta.env.VITE_API_URL; // Fetch API URL from environment variable
+      const response = await fetch(`${apiUrl}/enrollments/remove/${enrollmentId}`, {
         method: 'DELETE',
       });
       const result = await response.json();
@@ -87,7 +89,8 @@ function Profile() {
 
   const handleDeleteUser = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      fetch(`http://localhost:4000/clients/remove/${user?.id}`, {
+      const apiUrl = import.meta.env.VITE_API_URL; // Fetch API URL from environment variable
+      fetch(`${apiUrl}/clients/remove/${user?.id}`, {
         method: 'DELETE',
       })
         .then((response) => {
@@ -178,7 +181,7 @@ function Profile() {
                               <p className="fs-4"><strong>🏢 Department:</strong> {enrollment.program.department}</p>
                               <p className="fs-4">
                                 <strong>⚡ Status:</strong>
-                                <span className={`badge ms-2 ${enrollment.program.status === 'Active' ? 'bg-success' : 'bg-secondary'}`}>
+                                <span className={`badge ms-2 ${enrollment.program.status === 'Active' ? 'bg-success' : 'bg-secondary'}`} >
                                   {enrollment.program.status}
                                 </span>
                               </p>
@@ -216,4 +219,5 @@ function Profile() {
 }
 
 export default Profile;
+
 
