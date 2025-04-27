@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from 'react-query';
-import { Toaster, toast } from 'sonner';
 
 const fetchActiveInactivePrograms = async () => {
   const response = await fetch('http://localhost:4000/programs/active-inactive-programs');
@@ -41,7 +40,6 @@ function Dashboardsection() {
   }
 
   if (programError || clientError) {
-    toast.error('Failed to fetch data');
     return (
       <div className="container mt-5">
         <div className="alert alert-danger text-center">
