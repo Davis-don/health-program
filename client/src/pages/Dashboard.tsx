@@ -7,7 +7,6 @@ import Programs from '../components/Programs/Programs';
 import Profile from '../components/Clientprofile/Profile';
 import useProfileStore from '../store/useProfileStore';
 import Searchuser from '../components/search/Searchuser';
-import Enrollment from '../components/Enrollment/Enrollment';
 import { IoBagAddOutline } from "react-icons/io5";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoMdAdd } from "react-icons/io";
