@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import useProfileStore from '../../store/useProfileStore';
 
 function Searchuser() {
+  const apiUrl = import.meta.env.VITE_API_URL;  // Dynamically load the API URL from the environment
   const [searchParam, setSearchParam] = useState(''); // Search input state
   const openProfile = useProfileStore((state) => state.openProfile); // Function to toggle sidebar
   const [searchResults, setSearchResults] = useState<any[]>([]); // State to hold search results
@@ -23,7 +24,7 @@ function Searchuser() {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/clients/search?name=${searchParam.trim()}`);
+        const response = await fetch(`${apiUrl}/clients/search?name=${searchParam.trim()}`);
         const result = await response.json();
 
         if (response.ok) {
@@ -50,7 +51,7 @@ function Searchuser() {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/clients/search?name=${searchParam.trim()}`);
+        const response = await fetch(`${apiUrl}/clients/search?name=${searchParam.trim()}`);
         const result = await response.json();
 
         if (response.ok) {
@@ -99,11 +100,11 @@ function Searchuser() {
               </thead>
               <tbody>
                 {searchResults.map((client: any) => (
-                  <tr onClick={()=>{openProfile();addId(client.id)}} style={{cursor:'pointer'}} key={client.id}>
+                  <tr onClick={() => { openProfile(); addId(client.id); }} style={{cursor: 'pointer'}} key={client.id}>
                     <td>{`${client.firstName} ${client.middleName ? client.middleName + ' ' : ''}${client.lastName}`}</td>
                     <td>{client.phone}</td>
                     <td>
-                    {client.email}
+                      {client.email}
                     </td>
                   </tr>
                 ))}
@@ -116,4 +117,5 @@ function Searchuser() {
 }
 
 export default Searchuser;
+
 
