@@ -26,7 +26,20 @@ model Client {
   @@map("client_tbl") // 📌 Maps table to "client_tbl"
 }
 
-// program model
+// 👨‍⚕️ Doctor model
+model Doctor {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String   @unique
+  password        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("doctor_tbl") // 📌 Maps table to "doctor_tbl"
+}
+
+// 📚 Program model
 model Program {
   id          String       @id @default(uuid())
   name        String
@@ -41,7 +54,6 @@ model Program {
   @@map("Program") // 🔥 Use actual table name from PostgreSQL
 }
 
-
 // 🎓 Enrollment model (Many-to-Many Relationship)
 model Enrollment {
   id         String   @id @default(uuid())
@@ -54,3 +66,4 @@ model Enrollment {
 
   @@unique([clientId, programId]) // 🔥 Prevent duplicate enrollments
 }
+

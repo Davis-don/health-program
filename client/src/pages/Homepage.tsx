@@ -14,7 +14,7 @@ function Homepage() {
         <form>
             <label htmlFor="email">Email Address</label>
             <input placeholder='Enter Email Address' className='form-control' type="email" />
-            <label htmlFor="email">Passoword</label>
+            <label htmlFor="email">Password</label>
             <input placeholder='Enter password' className='form-control' type="password" />
             <div className="button-container">
             <button className='btn' type='submit'>Sign in</button>

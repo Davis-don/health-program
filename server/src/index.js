@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { clientRoutes } from './routes/clientRoutes.js';
 import { programRoutes } from './routes/programRoutes.js';
 import { enrollmentRoutes } from './routes/enrollmentRoutes.js'; 
+import { doctorRoutes } from './routes/doctorRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use("/clients", clientRoutes);
 app.use("/programs", programRoutes);
 app.use("/enrollments", enrollmentRoutes);
-
+app.use("/doctors", doctorRoutes);
 app.get('/', (_req, res) => {
   res.send('SERVER IS RUNNING');
 });
