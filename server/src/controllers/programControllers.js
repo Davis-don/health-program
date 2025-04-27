@@ -99,3 +99,28 @@ export const deleteProgram = async (req, res) => {
     res.status(500).json({ message: "Error deleting hospital program", error: error.message });
   }
 };
+
+// 🔥 Get active and inactive programs
+export const getActiveInactivePrograms = async (_req, res) => {
+  try {
+    const activePrograms = await prisma.program.count({
+      where: {
+        status: 'Active',
+      },
+    });
+
+    const inactivePrograms = await prisma.program.count({
+      where: {
+        status: 'Inactive',
+      },
+    });
+
+    res.status(200).json({
+      active: activePrograms,
+      inactive: inactivePrograms,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching active/inactive programs', error: error.message });
+  }
+};
+

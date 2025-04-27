@@ -1,6 +1,6 @@
 import express from "express";
 import { 
-  createProgram, getAllPrograms, getProgramById, updateProgram, deleteProgram 
+  createProgram, getAllPrograms, getProgramById, updateProgram, deleteProgram,getActiveInactivePrograms 
 } from "../controllers/programControllers.js";  
 
 const programRoutes = express.Router();
@@ -19,6 +19,9 @@ programRoutes.put("/program/:id", updateProgram);
 
 // 🗑️ Delete a program
 programRoutes.delete("/remove/:id", deleteProgram);
+
+// Add this new route to your programs router
+programRoutes.get('/active-inactive-programs', getActiveInactivePrograms);
 
 
 

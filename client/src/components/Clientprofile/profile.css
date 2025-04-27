@@ -1,3 +1,27 @@
 .enroll-in-program-container{
     
 }
+.nav-links-profile{
+border-bottom: 1px solid black;
+
+}
+.nav-links-profile ul{
+display: flex;
+flex-direction: row;
+gap: 2rem;
+justify-content: center;
+align-items: center;
+
+}
+.nav-links-profile ul li{
+font-size: 1.5rem;
+cursor: pointer;
+}
+.nav-links-profile ul li:hover{
+border-bottom: 2px solid blue;
+color: blue;
+}
+.active-profile-link{
+    border-bottom: 2px solid blue;
+    color: blue;
+}
