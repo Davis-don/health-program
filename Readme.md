@@ -24,6 +24,14 @@ You can access the **Health Program Management System** live at:
 
 1234
 
+## 📹 Health Program System Demo
+
+You can watch a short prototype/demo of the system in action here:
+
+👉 [Watch the Demo Video](https://youtu.be/SoTNYB7yDyg)
+
+(Click the link to play the video with full controls)
+
 ## Technologies Used
 
 ### Frontend
