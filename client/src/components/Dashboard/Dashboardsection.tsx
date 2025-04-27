@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from 'react-query';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const fetchActiveInactivePrograms = async () => {
-  const response = await fetch('http://localhost:4000/programs/active-inactive-programs');
+  const response = await fetch(`${apiUrl}/programs/active-inactive-programs`);
   if (!response.ok) {
     const errorMessage = await response.text();
     throw new Error(`Failed to fetch active/inactive programs: ${errorMessage}`);
@@ -11,7 +13,7 @@ const fetchActiveInactivePrograms = async () => {
 };
 
 const fetchTotalPatients = async () => {
-  const response = await fetch('http://localhost:4000/clients/all-clients');
+  const response = await fetch(`${apiUrl}/clients/all-clients`);
   if (!response.ok) {
     const errorMessage = await response.text();
     throw new Error(`Failed to fetch total patients: ${errorMessage}`);
