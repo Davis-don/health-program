@@ -1,4 +1,3 @@
-// Enrollment.tsx
 import './enrollment.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery, useMutation } from 'react-query';
@@ -16,7 +15,8 @@ interface Program {
 }
 
 const fetchPrograms = async (): Promise<Program[]> => {
-  const response = await fetch('http://localhost:4000/programs/all-programs');
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000'; // fallback to local if not set
+  const response = await fetch(`${apiUrl}/programs/all-programs`);
 
   if (!response.ok) {
     const errorMessage = await response.text();
@@ -101,7 +101,7 @@ function Enrollment() {
                   </p>
                   <p className="fs-4">
                     <strong>Status:</strong> 
-                    <span className={`badge ms-2 ${program.status === 'Active' ? 'bg-success' : 'bg-secondary'}`}>
+                    <span className={`badge ms-2 ${program.status === 'Active' ? 'bg-success' : 'bg-secondary'}`} >
                       {program.status}
                     </span>
                   </p>
@@ -127,6 +127,7 @@ function Enrollment() {
 }
 
 export default Enrollment;
+
 
 
 
