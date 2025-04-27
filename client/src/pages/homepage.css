@@ -52,3 +52,9 @@ background-color: rgb(28, 28, 64);
 color: white;
 padding-block: 1rem;
 }
+
+.left-side-spinner-container{
+display: flex;
+flex-direction: row;
+justify-content: center;
+}
