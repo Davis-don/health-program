@@ -23,8 +23,8 @@ interface Program {
   status: string;
 }
 
-const fetchPrograms = async (): Promise<Program[]> => {
-  const response = await fetch('http://localhost:4000/programs/all-programs');
+const fetchPrograms = async (apiUrl: string): Promise<Program[]> => {
+  const response = await fetch(`${apiUrl}/programs/all-programs`);
   if (!response.ok) {
     const errorMessage = await response.text();
     throw new Error(`Failed to fetch programs: ${errorMessage}`);
@@ -45,8 +45,8 @@ function Programs() {
   });
 
   const { data: programs, isLoading, error } = useQuery(
-    ['fetch-programs'],
-    fetchPrograms,
+    ['fetch-programs', apiUrl],
+    () => fetchPrograms(apiUrl),
     {
       refetchInterval: 1000, // Refetch every 1 second
     }
@@ -93,7 +93,7 @@ function Programs() {
   const { mutate: deleteProgram, isLoading: deleting } = useMutation({
     mutationFn: async (programId: string) => {
       try {
-        const response = await fetch(`http://localhost:4000/programs/remove/${programId}`, {
+        const response = await fetch(`${apiUrl}/programs/remove/${programId}`, {
           method: 'DELETE',
         });
 
