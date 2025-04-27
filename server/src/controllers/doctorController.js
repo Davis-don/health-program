@@ -1,5 +1,6 @@
 import prisma from "../config/dbConfig.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // 📌 Create a new doctor
 export const createDoctor = async (req, res) => {
@@ -129,4 +130,49 @@ export const getDoctorByName = async (req, res) => {
     res.status(500).json({ message: "Error searching doctors", error: error.message });
   }
 };
+
+// 🔑 Doctor Login 
+
+export const loginDoctor = async (req, res) => {
+  try {
+    // Check if the body exists and contains required properties
+    const { email, password } = req.body || {}; // Default to empty object to avoid destructuring errors
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please input email and password" });
+    }
+
+    const doctor = await prisma.doctor.findUnique({
+      where: { email: email.trim() },
+    });
+
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, doctor.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    if (!process.env.SECRET_KEY) {
+      console.error("Missing SECRET_KEY environment variable");
+      return res.status(500).json({ message: "Internal server error" });
+    }
+
+    const token = jwt.sign({ id: doctor.id }, process.env.SECRET_KEY);
+
+    const { id, firstName, lastName, email: doctorEmail } = doctor;
+    res.status(200).json({
+      message: "Doctor login successful",
+      authToken: token,
+      doctor: { id, firstName, lastName, email: doctorEmail },
+    });
+
+  } catch (error) {
+    console.error("Error during doctor login:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
